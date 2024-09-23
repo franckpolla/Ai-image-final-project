@@ -18,7 +18,7 @@ const register = async (req, res, next) => {
     const savedUser = await newUser.save();
     res.status(201).json({ user: savedUser });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 const logIn = async (req, res, next) => {
@@ -40,7 +40,7 @@ const logIn = async (req, res, next) => {
     });
     res.cookies("token", token).status(200).json(data);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 const logOut = async (req, res, next) => {
@@ -51,7 +51,7 @@ const logOut = async (req, res, next) => {
       .status(200)
       .json({ message: "Logged out successfully." });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 // this functin is used to refresh every time the page is reloaded
@@ -71,7 +71,7 @@ const refecth = async (req, res, next) => {
     }
     res.status(200).json({ user: user }); // providing the plain data of the user document from mongodb, making it easier to manipulate and return.
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
