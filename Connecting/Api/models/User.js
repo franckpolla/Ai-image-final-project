@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const Userschema = new mongoose.Schema(
+const Userschema = new Schema(
   {
     username: {
       type: String,
@@ -15,7 +15,6 @@ const Userschema = new mongoose.Schema(
       trim: true,
       unique: true,
       lowercase: true,
-      match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"], // Regex for basic email validation
     },
     password: {
       type: String,
@@ -30,7 +29,7 @@ const Userschema = new mongoose.Schema(
     // to ref is used to create the relation with the user array
     posts: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         required: false,
         ref: "Post",
       },
@@ -40,6 +39,6 @@ const Userschema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", Userschema);
+const User = model("User", Userschema);
 
-module.exports = User;
+export default User;

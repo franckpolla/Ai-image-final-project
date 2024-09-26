@@ -37,6 +37,8 @@ const createPostWithImages_V3 = async (req, res, next) => {
     const imageBuffer = Buffer.from(response.data);
     //Sharp is a high-performance image processing library often used for tasks like resizing, formatting, and converting images.
     await sharp(imageBuffer).png().toFile(filePath); // here we convert the image into a png, and after convertion we send it to the filepath.
+
+    // we are creating a new post
     const newPost = new Post({
       userId: userId,
       prompt: prompt,
@@ -50,6 +52,7 @@ const createPostWithImages_V3 = async (req, res, next) => {
       revisedPrompt: revisedPrompt,
       images: fileName,
     });
+    // we are saving the new post in the collection , that is because we are using the new method ,which is diff from await.Post.create()
     await newPost.save();
     user.posts.push(newPost);
     await user.save();
@@ -60,18 +63,112 @@ const createPostWithImages_V3 = async (req, res, next) => {
   }
 };
 
-const getPostsController = async (req, res, next) => {};
+const getPostsController = async (req, res, next) => {
+  try {
+    const posts = await Post.find().populate("user", "username"); //The use of populate() simplifies querying and reduces the need to make multiple database calls. Instead of manually fetching the user data based on the ObjectId,
+    res.status(201).json({ posts: posts });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-const getSinglePost = async (req, res, next) => {};
+const getSinglePost = async (req, res, next) => {
+  const { postId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+    const retunrPost = await Post.findById(postId).populate("user", "username");
+    return res.status(200).json({ posts: retunrPost.posts });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-const getUserPost = async (req, res, next) => {};
-const deletePost = async (req, res, next) => {};
-const likePost = async (req, res, next) => {};
-const dislikePost = async (req, res, next) => {};
+const getUserPosts = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    const posts = await Post.find({ userId: userId }).populate(
+      "user",
+      "username"
+    );
+    return res.status(200).json({ posts: posts });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+const deletePost = async (req, res, next) => {
+  const { postId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+    await post.remove();
+    res.status(204).json({ message: "Post deleted successfully." });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+const likePost = async (req, res, next) => {
+  const { postId } = req.params;
+  const { userId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "user not found." });
+    }
+    if (post.likes.includes(userId)) {
+      return res.status(400).json({ message: "Post already liked." });
+    }
+    post.likes.push(userId);
+    await post.save();
+    res.status(200).json({ message: "Post liked successfully." });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const dislikePost = async (req, res, next) => {
+  const { postId } = req.params;
+  const { userId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "user not found." });
+    }
+    if (post.likes.includes(userId)) {
+      post.likes = post.likes.filter((like) => like !== userId); // we are filtering by user id to remove the post from the list
+      await post.save();
+      return res.status(200).json({ message: "Post disliked successfully." });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 export {
   getSinglePost,
-  getUserPost,
+  getUserPosts,
   likePost,
   deletePost,
   dislikePost,
