@@ -15,3 +15,5 @@ const verifyToken = (req, res, next) => {
     next(); //If token is valid, move to the next middleware or route
   });
 };
+
+export default verifyToken;

@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/User.js";
 
 // in this function we are getting the user data from the database
 const GetUserController = async (res, req) => {
@@ -53,7 +53,7 @@ const UpdateUserController = async (req, res) => {
     if (!userToUpdate) {
       return res.status(404).json({ error: "User not found" });
     }
-
+    // we are passing the updates to the userToUpdate,
     Object.assign(userToUpdate, updates);
     await userToUpdate.save();
 

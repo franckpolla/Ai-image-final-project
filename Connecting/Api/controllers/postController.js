@@ -1,8 +1,8 @@
 import axios from "axios";
 import fs from "fs"; // it is used to create temporary files
 import sharp from "sharp"; // it's a library use to manage images
-import Post from "..//models/Post";
-import User from "..//models/User";
+import Post from "..//models/Post.js";
+import User from "..//models/User.js";
 import path from "path"; // it is used to create directory for files
 
 //this function will generate names of files
@@ -120,8 +120,8 @@ const deletePost = async (req, res, next) => {
   }
 };
 const likePost = async (req, res, next) => {
-  const { postId } = req.params;
-  const { userId } = req.params;
+  const { postId, userId } = req.params;
+
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -144,8 +144,8 @@ const likePost = async (req, res, next) => {
 };
 
 const dislikePost = async (req, res, next) => {
-  const { postId } = req.params;
-  const { userId } = req.params;
+  const { postId, userId } = req.params;
+
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -174,5 +174,4 @@ export {
   dislikePost,
   getPostsController,
   createPostWithImages_V3,
-  generateFileName,
 };

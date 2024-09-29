@@ -1,0 +1,21 @@
+import express from "express";
+import {
+  register,
+  logIn,
+  logOut,
+  refecth,
+} from "../controllers/authController.js";
+
+// WE are using router instance to define the different route.
+const router = express.Router();
+// POST request for user registration
+router.post("/register", register);
+// Log in user
+router.post("/login", logIn);
+// Log out user
+router.post("/logout", logOut);
+// Fetch current user
+
+router.get("/refesh", refecth);
+
+export default router;
