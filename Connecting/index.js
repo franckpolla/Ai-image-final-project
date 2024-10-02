@@ -8,9 +8,8 @@ import postRoute from "../Connecting/Api/routes/posts.js";
 import userRoute from "../Connecting/Api/routes/users.js";
 import path from "path";
 import verifyToken from "../Connecting/Api/middlewares/verifyToken.js";
-
 import { fileURLToPath } from "url";
-
+// C:\Users\PC\Desktop\AI-Image final project\Connecting\config.env
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -27,7 +26,6 @@ const app = express();
 // Initializes the connection
 
 const port = process.env.PORT || 3001;
-
 async function connectToMongoDB() {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
