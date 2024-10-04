@@ -38,7 +38,7 @@ const logIn = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-    res.cookies("token", token).status(200).json(data);
+    res.cookies("token", token).status(200).json(data); //Sets a Cookie: It attaches a cookie named "token" with the value of the token variable to the HTTP response.
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

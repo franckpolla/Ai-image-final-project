@@ -16,6 +16,6 @@ router.post("/login", logIn);
 router.post("/logout", logOut);
 // Fetch current user
 
-router.get("/refesh", refecth);
+router.get("/refetch", refecth);
 
 export default router;

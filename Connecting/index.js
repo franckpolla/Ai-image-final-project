@@ -38,12 +38,12 @@ async function connectToMongoDB() {
 connectToMongoDB();
 // app.use app.use: This method is used to mount middleware functions in an Express application.
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser()); //s a middleware for Express.js that parses Cookie header and populates req.cookies with an object keyed by the cookie names. If a secret is provided, it will also be able to parse signed cookies.
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); //static files. This line sets up middleware to deliver files from a specified directory (uploads) when a client makes requests to a particular route (/uploads)
 
 //It connects a specific set of routes (defined in authRoute) to a base path (/api/auth) within your application. This setup is essential for organizing your application's endpoints, especially as it grows in complexity.
 app.use("/api/auth", authRoute);
-app.use("/api/auth", postRoute);
+app.use("/api/post", postRoute);
 app.use("/api/auth", verifyToken, userRoute); // here we have a middleware to verify the token
 
 app.use((err, req, res, next) => {
