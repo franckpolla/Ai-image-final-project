@@ -55,6 +55,7 @@ export const LOG_OUT_USER = async () => {
   }
 };
 
+// this function  is called to get the actual user
 export const CHECK_AUTH_USER = async () => {
   try {
     const response = await axios.get(`/api/auth/refetch`);
@@ -166,5 +167,62 @@ export const IMAGE_GENERATOR_V3 = async (promptv3) => {
     } catch (error) {
       console.error(error.message);
     }
+  }
+};
+
+export const GET_AI_IMAGES = async () => {
+  try {
+    const response = await axios.get("/api/post/all");
+    if (response.status === 200) {
+      return response.data.posts;
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const GET_AI_USER_IMAGES = async () => {
+  const currentUser = CHECK_AUTH_USER();
+  try {
+    const response = await axios.get(`/api/post/user/${currentUser._id}`);
+    if (response.status === 200) {
+      return response.data.posts;
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const GET_SINGLE_POST = async (postID) => {
+  try {
+    const response = await axios.get(`/api/post/single/${postID}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const DELETE_POST = async (postID) => {
+  try {
+    const response = await axios.delete(`/api/post/delete/${postID}`);
+    if (response.status === 200) {
+      return "the post has been deleted ";
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const BUYING_CREDIT = async (CREDIT) => {
+  const currentUser = CHECK_AUTH_USER();
+  try {
+    const response = await axios.put(`/api/user/credit/${currentUser._id}`, {
+      data: {
+        credit: Number(currentUser?.credit) + Number(CREDIT),
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error.message);
   }
 };

@@ -15,7 +15,6 @@ import Loader from "./Global/Loader";
 import Auth from "./Global/Auth";
 import PaymentProssing from "./Global/PaymentProssing";
 import AIProcessing from "./Global/AIProcessing";
-
 //PAGE IMPORT
 import ApertImageCard from "./Page/ApertImageCard";
 
