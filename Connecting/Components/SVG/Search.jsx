@@ -1,6 +1,6 @@
 import React from "react";
 
-const Search = () => {
+const SearchIcon = () => {
   return (
     <svg
       stroke="currentColor"
@@ -20,4 +20,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchIcon;

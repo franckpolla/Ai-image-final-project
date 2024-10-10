@@ -13,7 +13,7 @@ import History from "./History";
 import Home from "./Home";
 import Likes from "./Likes";
 import HomeLogo from "./HomeLogo";
-import Search from "./Search";
+import SearchIcon from "./Search";
 import Image from "./Image";
 import Filter from "./Filter";
 import ImgSearch from "./ImgSearch";
@@ -44,7 +44,7 @@ export {
   Home,
   Likes,
   HomeLogo,
-  Search,
+  SearchIcon,
   Image,
   Filter,
   ImgSearch,
