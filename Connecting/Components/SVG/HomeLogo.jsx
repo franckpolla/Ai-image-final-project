@@ -7,7 +7,7 @@ const HomeLogo = () => {
         width: "150px",
         height: "auto",
       }}
-      src="/assets/ailogo.png"
+      src="/assets/Brain_tech.png"
       alt=""
     />
   );

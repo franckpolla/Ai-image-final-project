@@ -3,7 +3,7 @@ import {
   register,
   logIn,
   logOut,
-  refecth,
+  refetch,
 } from "../controllers/authController.js";
 
 // WE are using router instance to define the different route.
@@ -14,8 +14,8 @@ router.post("/register", register);
 router.post("/login", logIn);
 // Log out user
 router.post("/logout", logOut);
-// Fetch current user
+// Fetch current userS
 
-router.get("/refetch", refecth);
+router.get("/refetch", refetch);
 
 export default router;

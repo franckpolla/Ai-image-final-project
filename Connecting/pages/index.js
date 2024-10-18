@@ -62,14 +62,22 @@ const index = () => {
     } else if (category == "Instagram") {
       setAllAIImages(V3_1024x1024);
       setAllPostCopy(V3_1024x1024);
-      setCategory("Reel");
+      setCategory("Instagram");
     } else if (category == "Youtube") {
       setAllAIImages(V3_1792x1024);
       setAllPostCopy(V3_1792x1024);
-      setCategory("Reel");
+      setCategory("Youtube");
     }
   };
 
+  const Get_User = async () => {
+    const storedCookieValue = Cookies.get("token");
+    if (storedCookieValue) {
+      const user = await CHECK_AUTH_USER();
+      console.log(user);
+      setActiveUser(user);
+    }
+  };
   const CALLING_ALL_POSTS = async () => {
     try {
       const response = await GET_AI_IMAGES();
@@ -90,12 +98,7 @@ const index = () => {
       setV3_1024x1792(V3_1024x1792Temp);
       setV3_1024x1024(V3_1024x1024Temp);
       setV3_1792x1024(V3_1792x1024Temp);
-
-      const storedCookieValue = Cookie.get("token");
-      if (storedCookieValue) {
-        const user = CHECK_AUTH_USER();
-        setActiveUser(user);
-      }
+      Get_User();
     } catch (error) {
       console.error(error.message);
     }
@@ -144,7 +147,7 @@ const index = () => {
       <Header />
       <div className="mb-[56px] sm:mb-0 sm:mt-[56px]">
         <div className="flex flex-col ">
-          <GetStarted activeUser={activeUser} />
+          <GetStarted />
           <div className="w-screen overflow-x-hidden flex flex-col items-center py-4 mt-16">
             <a href="/">
               <HomeLogo />
@@ -175,16 +178,15 @@ const index = () => {
                       value={searchItem}
                       onChange={(e) => setSearchItem(e.target.value)}
                     />
-
-                    <button
-                      type="button"
-                      className="text-base absolute right-2 hover:bg-zinc-800 rounded-full cursor-pointer flex items-center h-8 w-8 justify-center"
-                    >
-                      <Image />
-                    </button>
                   </div>
                 </div>
-                <div className="flex justify-center ">
+                <div className="flex justify-center">
+                  <button
+                    type="button"
+                    className="ml-2 h-10 w-10 rounded-full cursor-pointer flex items-center justify-center bg-transparent hover:bg-zinc-900"
+                  >
+                    <Image />
+                  </button>
                   <button
                     type="button"
                     onClick={() =>
@@ -202,74 +204,71 @@ const index = () => {
               style={{
                 position: "relative",
               }}
-            >
-              {openFilter && <Notic />}
-              <div className="mb-8 flex-col items-center">
-                <div className="flex space-x-2">
+            />
+            {openFilter && <Notic />}
+            <div className="mb-8 flex-col items-center">
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  className="w-32 sm:w-36 flex items-center text-xs justify-center text-center
+                 h-9 rounded-full hover:brightness-110 bg-opacity-0 shadow-sm mt-4 bg-gradient-to-t from-indigo-900 via-indigo-900 to-indigo-900"
+                >
+                  Search
+                </button>
+                <a href="/aperture">
                   <button
                     type="button"
                     className="w-32 sm:w-36 flex items-center text-xs justify-center text-center
-                 h-9 rounded-full hover:brightness-110 bg-opacity-0 shadow-sm mt-4 bg-gradient-to-t from-indigo-900 via-indigo-900 to-indigo-900"
-                  >
-                    Search
-                  </button>
-                  <a href="/apert">
-                    {" "}
-                    <button
-                      type="button"
-                      className="w-32 sm:w-36 flex items-center text-xs justify-center text-center
                  h-9 rounded-full hover:brightness-110 bg-opacity-0 shadow-sm mt-4 border border-gray-700 hover:bg-zinc-700"
-                    >
-                      Generate
-                    </button>
-                  </a>
-                </div>
+                  >
+                    Generate
+                  </button>
+                </a>
               </div>
-              <div className="flex space-x-2 px-2">
-                <Button
-                  icon={<BsCameraReelsFill />}
-                  name={"Reel"}
-                  handClick={() => changeCategory("Reel")}
-                  category={category}
-                />
-                <Button
-                  icon={<BsCameraReelsFill />}
-                  name={"Youtube"}
-                  handClick={() => changeCategory("Youtube")}
-                  category={category}
-                />
-                <Button
-                  icon={<BsCameraReelsFill />}
-                  name={"Instagram"}
-                  handClick={() => changeCategory("Instagram")}
-                  category={category}
-                />
-              </div>
+            </div>
+            <div className="flex space-x-2 px-2">
+              <Button
+                icon={<BsCameraReelsFill />}
+                name={"Reel"}
+                handleClick={() => changeCategory("Reel")}
+                category={category}
+              />
+              <Button
+                icon={<BsCameraReelsFill />}
+                name={"Youtube"}
+                handleClick={() => changeCategory("Youtube")}
+                category={category}
+              />
+              <Button
+                icon={<BsCameraReelsFill />}
+                name={"Instagram"}
+                handleClick={() => changeCategory("Instagram")}
+                category={category}
+              />
+            </div>
 
-              <div className="mt-2">&nbsp;</div>
-              <div className="mt-3 relative px-2 md:px-  w-full">
-                <div
-                  className="active:outline-none focus:outline-none overflow-hidden
+            <div className="mt-2">&nbsp;</div>
+            <div className="mt-3 relative px-2 md:px-  w-full">
+              <div
+                className="active:outline-none focus:outline-none overflow-hidden
                 new-css-style-box"
-                  role="grid"
-                  tabIndex={0}
-                  style={{
-                    position: "relative",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr)",
-                    listStyle: "none",
-                    margin: "0",
-                    padding: "0",
-                    gap: ".1rem",
-                  }}
-                >
-                  {}
-                </div>
-              </div>
+                role="grid"
+                tabIndex={0}
+                style={{
+                  position: "relative",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr)",
+                  listStyle: "none",
+                  margin: "0",
+                  padding: "0",
+                  gap: ".1rem",
+                }}
+              ></div>
             </div>
           </div>
         </div>
       </div>
+      {buying && <PaymentProssing buying={buying} setBuying={setBuying} />}
     </div>
   );
 };

@@ -4,10 +4,10 @@ const HeaderLogo = () => {
   return (
     <img
       style={{
-        width: "60px",
+        width: "40px",
         height: "auto",
       }}
-      src="/assets/ailogo.png"
+      src="/assets/Brain_tech.png"
       alt=""
     />
   );

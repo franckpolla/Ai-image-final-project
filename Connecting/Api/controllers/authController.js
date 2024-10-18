@@ -25,6 +25,7 @@ const logIn = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
@@ -38,7 +39,7 @@ const logIn = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-    res.cookies("token", token).status(200).json(data); //Sets a Cookie: It attaches a cookie named "token" with the value of the token variable to the HTTP response.
+    res.cookie("token", token).status(200).json(data); //Sets a Cookie: It attaches a cookie named "token" with the value of the token variable to the HTTP response.
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -55,7 +56,7 @@ const logOut = async (req, res, next) => {
   }
 };
 // this functin is used to refresh every time the page is reloaded
-const refecth = async (req, res, next) => {
+const refetch = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -75,4 +76,4 @@ const refecth = async (req, res, next) => {
   }
 };
 
-export { register, logIn, logOut, refecth };
+export { register, logIn, logOut, refetch };

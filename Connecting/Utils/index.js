@@ -7,52 +7,70 @@ const openai = new OpenAI({
 });
 
 export const REGISTER_USER = async (signup) => {
-  const { name, email, password, comfirmPassword } = signup;
+  const { username, email, password, confirmPassword } = signup;
 
-  if (password !== comfirmPassword) {
-    throw new Error("Passwords do not match");
-  }
-  if (!name || !email || !password || !comfirmPassword) {
+  if (!username || !email || !password || !confirmPassword) {
     throw new Error("All fields are required");
   }
+
+  if (password !== confirmPassword) {
+    throw new Error("Passwords do not match");
+  }
+
   try {
     const response = await axios.post("/api/auth/register", {
-      data: { name, email, password },
+      username,
+      email,
+      password,
     });
-    if (response.status == 200) {
-      window.location.href("/");
+
+    console.log(response.data);
+    if (response.status === 201) {
+      window.location.href = "/";
     }
+    return response.data.user;
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error.response?.data?.message || error.message);
+    throw new Error(
+      error.response?.data?.message || "An error occurred during registration"
+    );
   }
 };
 
 export const LOGIN_USER = async (login) => {
   const { email, password } = login;
+
   if (!email || !password) {
     throw new Error("All fields are required");
   }
 
   try {
     const response = await axios.post("/api/auth/login", {
-      data: { email, password },
+      email,
+      password,
     });
-    if (response.status == 200) {
-      window.location.href("/");
+
+    console.log(response.data);
+    if (response.status === 200) {
+      window.location.href = "/";
     }
+    return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error.response?.data?.message || error.message);
+    throw new Error(
+      error.response?.data?.message || "An error occurred during login"
+    );
   }
 };
-
 export const LOG_OUT_USER = async () => {
   try {
-    const response = await axios.get("/api/auth/logout");
+    const response = await axios.post("/api/auth/logout");
     if (response.status == 200) {
-      window.location.href("/api/auth/login");
+      window.location.href = "/login";
     }
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error.response?.data?.message || error.message);
+    throw error;
   }
 };
 
@@ -60,11 +78,12 @@ export const LOG_OUT_USER = async () => {
 export const CHECK_AUTH_USER = async () => {
   try {
     const response = await axios.get(`/api/auth/refetch`);
-    let user;
+    let userDetail;
     if (response.status == 200) {
-      user = response.data;
+      userDetail = response.data.user;
+      console.log(userDetail);
     }
-    return user;
+    return userDetail;
   } catch (error) {
     throw new Error(error.message);
   }

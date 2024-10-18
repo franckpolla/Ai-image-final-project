@@ -12,7 +12,7 @@
 }
 
 .la-ball-grid-beat.la-dark {
-  color: #333;
+  color: #333333;
 }
 
 .la-ball-grid-beat > div {
@@ -137,6 +137,8 @@ html {
 body {
   margin: 0;
   line-height: inherit;
+  background-color: rgb(192, 237, 255);
+
 }
 
 hr {
@@ -3413,11 +3415,7 @@ video {
 }
 
 body {
-  background-color: #27272a;
-  overflow-x: hidden;
-}
-
-@keyframes fade-in-keyframes {
+  background: linear-gradient(to right, #0d0e0f 0%, #2a1c6b 50%, #4a2f9f 100%);}  @keyframes fade-in-keyframes {
   0% {
     opacity: 0;
     transform: translate(-50%, -49%) scale(0.96);

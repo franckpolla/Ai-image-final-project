@@ -7,7 +7,7 @@ const LoginLogo = () => {
         width: "100px",
         height: "auto",
       }}
-      src="/assets/ailogo.png"
+      src="/assets/Brain_tech.png"
       alt=""
     />
   );
