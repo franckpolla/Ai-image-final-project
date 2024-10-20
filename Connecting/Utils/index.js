@@ -90,7 +90,7 @@ export const CHECK_AUTH_USER = async () => {
 };
 
 export const LIKE_POST = async (postID) => {
-  const currentUser = CHECK_AUTH_USER();
+  const currentUser = await CHECK_AUTH_USER();
 
   if (!currentUser) {
     throw new Error("You must be logged in to like a post");
@@ -112,7 +112,7 @@ export const LIKE_POST = async (postID) => {
 };
 
 export const DISLIKE_POST = async (postID) => {
-  const currentUser = CHECK_AUTH_USER();
+  const currentUser = await CHECK_AUTH_USER();
   if (!currentUser) {
     throw new Error("You must be logged in to dislike a post");
   }
@@ -134,7 +134,7 @@ export const DISLIKE_POST = async (postID) => {
 };
 
 export const IMAGE_GENERATOR_V3 = async (promptv3) => {
-  const currentUser = CHECK_AUTH_USER();
+  const currentUser = await CHECK_AUTH_USER();
   if (!currentUser || !currentUser._id) {
     throw new Error("User authentication failed");
   }
@@ -157,7 +157,7 @@ export const IMAGE_GENERATOR_V3 = async (promptv3) => {
   const imageUrl = image.data[0].url;
 
   if (imageUrl) {
-    const currentUser = CHECK_AUTH_USER();
+    const currentUser = await CHECK_AUTH_USER();
     try {
       const response = await axios.post(
         `/api/post/create/v3/${currentUser._id}`,
@@ -201,7 +201,7 @@ export const GET_AI_IMAGES = async () => {
   }
 };
 export const GET_AI_USER_IMAGES = async () => {
-  const currentUser = CHECK_AUTH_USER();
+  const currentUser = await CHECK_AUTH_USER();
   try {
     const response = await axios.get(`/api/post/user/${currentUser._id}`);
     if (response.status === 200) {
@@ -232,7 +232,7 @@ export const DELETE_POST = async (postID) => {
   }
 };
 export const BUYING_CREDIT = async (CREDIT) => {
-  const currentUser = CHECK_AUTH_USER();
+  const currentUser = await CHECK_AUTH_USER();
   try {
     const response = await axios.put(`/api/user/credit/${currentUser._id}`, {
       data: {
